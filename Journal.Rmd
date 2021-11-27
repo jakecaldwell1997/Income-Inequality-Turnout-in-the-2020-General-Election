@@ -45,6 +45,8 @@ state_turnout$vep <- as.numeric(sub("%","",state_turnout$vep))/100
 hist(state_turnout$vep)
 ```
 
+Nice little plot.
+
 
 ## Second level header
 
