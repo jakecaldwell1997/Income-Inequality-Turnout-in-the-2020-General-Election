@@ -35,7 +35,7 @@ This is an .Rmd file. It is plain text with special features. Any time you write
 
 Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
 
-```{r}
+```{r turnout, echo = FALSE}
 state_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_turnout_2020.csv") [-1,]
 state_turnout <- state_turnout[,c('State', 'X6')]
 names(state_turnout) <- c('state',
