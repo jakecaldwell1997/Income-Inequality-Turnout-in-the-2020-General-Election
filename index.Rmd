@@ -19,23 +19,29 @@ output: html_document
 
 # **Income Inequality & Turnout**
 
-This is a template example for lab journaling. Students in Matt Crump's Human Cognition and Performance Lab will use this template to learn R, and other things. Students can replace this text with more fun things. People not in my lab can use this too.
+##### Introduction
 
-## How to use
+Income inequality is   
 
-1. fork the repo for this website and follow instructions on read me to get set up. [https://github.com/CrumpLab/LabJournalWebsite](https://github.com/CrumpLab/LabJournalWebsite)
+##### Formative Literature 
 
-2. Blog/journal what you are doing in R, by editing the Journal.Rmd. See the [Journal page](https://crumplab.github.io/LabJournalWebsite/Journal.html) for an example of what to do to get started learning R.
 
-3. See the [links page](https://crumplab.github.io/LabJournalWebsite/Links.html) for lots of helpful links on learning R.
 
-4. Change everything to make it your own.
+##### This Project  
+
+The following is an exploratory attempt to unravel the relationship between rising income inequality and voter turnout in the 2020 General Election.  I explore the relationship between the two from the broadest level of analysis to the most narrow available to me:  
+
+- I begin with state-level analysis with a simple bi-variate regression between the variables of interest.  
+
+- From there, I do the same at the county level with a rough estimate of county-level turnout rates.  
+
+- The final and primary analysis is an in-depth look at North Carolina using data from the North Carolina State Board of Elections.
 
 
 </div>
 <div class="col-sm-6">
 
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
+### POS4931 - Election Data Science
 
 <a href = "https://crumplab.github.io">
 ![](images/logo.png)

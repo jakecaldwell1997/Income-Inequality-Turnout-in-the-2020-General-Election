@@ -1,0 +1,150 @@
+---
+title: "Preliminary Visualizations"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(leaflet)
+library(RColorBrewer)
+library(stringr)
+library(data.table)
+library(stargazer)
+library(gridExtra)
+```
+
+```{r data setup, include = FALSE}
+# State Turnout
+state_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_turnout_2020.csv") [-1,]
+state_turnout <- state_turnout[,c('State', 'X6')]
+names(state_turnout) <- c('state',
+                          'vep')
+state_turnout$vep <- as.numeric(sub("%","",state_turnout$vep))/100
+
+# State Gini & Join
+
+state_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_gini.csv") 
+state_gini <- state_gini[,c('STATE', 'AMEME001')]
+names(state_gini) <- c('state', 'gini')
+
+# State Join
+states <- left_join(state_turnout, state_gini, by = 'state')
+states <- na.omit(states)
+
+# County Gini
+
+county_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/county_gini.csv")
+
+# County Turnout
+
+# Voters
+countyvote <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/countypres_2000-2020.csv") %>%
+  filter(year == "2020")
+
+countyvote$county <- paste(countyvote$county_name, countyvote$state, sep = " County, ")
+
+cvote <- countyvote %>%
+	group_by(county) %>%
+	summarise(vote = sum(candidatevotes))
+
+cvote$county <- str_to_title(cvote$county)
+
+# VAP Estimate
+countyvap <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/CVAP_county.csv") %>%
+    filter(lntitle == "Total")
+
+countyvap <- rename(countyvap, GEOID = geoid)
+
+countyvap <- countyvap[,c('GEOID', 'geoname', 'cvap_est')]
+countyvap <- rename(countyvap, county = geoname)
+countyvap$county <- str_to_title(countyvap$county)
+
+county_turnout <- left_join(countyvap, cvote, by = "county")
+county_turnout$turnout <- county_turnout$vote/county_turnout$cvap_est
+county_turnout <- filter(county_turnout, turnout < 1)
+
+# Adding County Ginis
+iso_gini <- county_gini[,c('GEOID', 'AMEME001')]
+county_turnout <- left_join (county_turnout, iso_gini, by = "GEOID")
+
+```
+
+<p>&nbsp;</p>
+
+# Data 
+
+The data used to generate the proceeding plots were collected from the following sources:  
+
+1. State and county-level income inequality data (2015-2019) collected from American Community Survey.  
+2. State-level voter turnout data collected from [ElectProject.org](http://www.electproject.org/) (should sound familiar).  
+3. County-level turnout calculated by collecting raw county-level returns (MIT), divided by Census Bureau CVAP estimates.  This is a rather rough measure, with some important caveats.  Due to discrepancies in data entry, Alaska's counties were omitted, as well as a collection of smaller counties such as Dolores County, Colorado, which had voter turnout rates of over 100% for unknown reasons.  
+
+<p>&nbsp;</p>
+  
+# Income Inequality by State and County
+
+##### Measuring Inequality
+
+Income inequality is generally measured via Gini coefficient, which ranges in value from 0 to 1.  A value of 0 suggests income is distributed entirely equally, while a value of 1 suggests that the entirety of the population's wealth is concentrated in one person.
+
+```{r ineq, warning = FALSE, echo = FALSE}
+
+state.ineq.hist <- ggplot(data = states, mapping = aes(x = gini)) +
+  geom_histogram(binwidth = 0.01, color = "darkgreen", fill = "forestgreen") +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = "State Inequality") +
+  xlab("Gini Coefficient") +
+  ylab("Count") +
+  theme_minimal()
+
+county.ineq.hist <- ggplot(data = county_turnout, mapping = aes(x = AMEME001)) +
+  geom_histogram(binwidth = 0.01, color = "darkgreen", fill = "forestgreen") +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = "County Inequality") +
+  xlab("Gini Coefficient") +
+  ylab("Count") +
+  theme_minimal()
+
+grid.arrange(state.ineq.hist, county.ineq.hist, ncol = 2)
+```
+
+Here, we see that, unsurprisingly, there is much greater variation in the inequality among counties than there is among states.  
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+# Voter Turnout by State and County
+
+```{r turn, warning = FALSE, echo = FALSE}
+state.turn.hist <- ggplot(data = states, mapping = aes(x = vep)) +
+  geom_histogram(binwidth = 0.015, color = "darkblue", fill = "navyblue") +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "State Turnout (VEP)") +
+  xlab("VEP Turnout Rate") +
+  ylab("Count") +
+  theme_minimal()
+
+county.turn.hist <- ggplot(data = county_turnout, mapping = aes(x = turnout)) +
+  geom_histogram(binwidth = 0.015, color = "darkblue", fill = "navyblue") +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "County Turnout (VAP Rough Estimate)") +
+  xlab("VAP Turnout Rate") +
+  ylab("Count") +
+  theme_minimal()
+
+grid.arrange(state.turn.hist, county.turn.hist, ncol = 2)
+```
+
+Again, there is much greater variation among counties than states in voter turnout rates.  However, we should hesitate to draw any conclusions based on this graph.  These plots measure different phenomena - the former displaying the voting eligible population (VEP) turnout rate while the latter looks at voting age population (VAP) rate.  

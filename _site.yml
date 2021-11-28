@@ -2,10 +2,14 @@ name: "Jake Caldwell"
 navbar:
   title: "Jake Caldwell"
   left:
-    - text: "Home"
+    - text: "Introduction"
       href: index.html
-    - text: "Journal"
-      href: Journal.html
+    - text: "Visualizations"
+      href: Visualizations.html
+    - text: "State & County"
+      href: StateCounty.html
+    - text: "North Carolina"
+      href: NorthCarolina.html
     - text: "Links"
       href: Links.html
 output_dir: "docs"

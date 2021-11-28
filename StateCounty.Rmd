@@ -1,0 +1,125 @@
+---
+title: "Analysis: State & County"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(leaflet)
+library(RColorBrewer)
+library(stringr)
+library(data.table)
+library(stargazer)
+library(gridExtra)
+```
+
+```{r data setup, include = FALSE}
+# State Turnout
+state_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_turnout_2020.csv") [-1,]
+state_turnout <- state_turnout[,c('State', 'X6')]
+names(state_turnout) <- c('state',
+                          'vep')
+state_turnout$vep <- as.numeric(sub("%","",state_turnout$vep))/100
+
+# State Gini & Join
+
+state_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_gini.csv") 
+state_gini <- state_gini[,c('STATE', 'AMEME001')]
+names(state_gini) <- c('state', 'gini')
+
+# State Join
+states <- left_join(state_turnout, state_gini, by = 'state')
+states <- na.omit(states)
+
+# County Gini
+
+county_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/county_gini.csv")
+
+# County Turnout
+
+# Voters
+countyvote <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/countypres_2000-2020.csv") %>%
+  filter(year == "2020")
+
+countyvote$county <- paste(countyvote$county_name, countyvote$state, sep = " County, ")
+
+cvote <- countyvote %>%
+	group_by(county) %>%
+	summarise(vote = sum(candidatevotes))
+
+cvote$county <- str_to_title(cvote$county)
+
+# VAP Estimate
+countyvap <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/CVAP_county.csv") %>%
+    filter(lntitle == "Total")
+
+countyvap <- rename(countyvap, GEOID = geoid)
+
+countyvap <- countyvap[,c('GEOID', 'geoname', 'cvap_est')]
+countyvap <- rename(countyvap, county = geoname)
+countyvap$county <- str_to_title(countyvap$county)
+
+county_turnout <- left_join(countyvap, cvote, by = "county")
+county_turnout$turnout <- county_turnout$vote/county_turnout$cvap_est
+county_turnout <- filter(county_turnout, turnout < 1)
+
+# Adding County Ginis
+iso_gini <- county_gini[,c('GEOID', 'AMEME001')]
+county_turnout <- left_join (county_turnout, iso_gini, by = "GEOID")
+
+```
+
+# Intro
+
+<p>&nbsp;</p>
+
+# State-Level Analysis
+
+```{r, results = "asis"}
+state.lm <- lm(vep ~ gini, data = states)
+stargazer(state.lm, type = "html", title = "Income Inequality and State-Level Turnout (VEP)", covariate.labels = "Gini Coef.")
+```
+
+
+<p>&nbsp;</p>
+
+```{r, echo = FALSE}
+ggplot(aes(x = gini, y = vep), data = states) +
+
+    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
+    labs(x = "Gini Coef.", y = "2020 VEP Turnout", title = "State Inequality and Turnout") +
+    theme_minimal() +
+    geom_text(aes(label = state), label.size = .1)
+```
+
+<p>&nbsp;</p>
+
+# County-Level Analysis
+```{r, results = "asis"}
+county.lm <- lm(turnout ~ AMEME001, data = county_turnout)
+stargazer(county.lm, type = "html", title = "Income Inequality and County-Level Turnout (VAP Estimate)", covariate.labels = "Gini Coef.")
+```
+
+<p>&nbsp;</p>
+
+```{r, echo = FALSE}
+ggplot(aes(x = AMEME001, y = turnout), data = county_turnout) +
+    geom_point()+
+    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
+    labs(x = "Gini Coef.", y = "2020 Turnout", title = "County Inequality and Turnout") +
+    theme_minimal()
+```
+
+

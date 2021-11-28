@@ -1,0 +1,157 @@
+---
+title: "North Carolina"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(leaflet)
+library(RColorBrewer)
+library(stringr)
+library(data.table)
+library(stargazer)
+library(gridExtra)
+```
+
+```{r data setup, include = FALSE}
+# Map Data 
+
+county_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/county_gini.csv")
+
+nc_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_turnout.csv")
+
+nc_county <- st_read(dsn = "/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_county20.shp")
+
+
+county_gini_nc <- county_gini %>%
+  filter(STATE == "North Carolina") %>%
+  mutate(GEOID20 = str_c(STATEA, COUNTYA))
+
+nc_county_gini <- left_join(nc_county, county_gini_nc, by = "GEOID20")
+nc_county_gini <- left_join(nc_county_gini, nc_turnout, by = "NAMELSAD20")
+
+
+# Voter File Data
+nc_reg <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvoter_Statewide.txt", n_max = 1000000)
+nc_reg <- nc_reg[,c('voter_reg_num', 'voter_status_desc', 'voter_status_reason_desc', 'race_code', 'ethnic_code', 'party_cd', 'gender_code', 'birth_age', 'registr_dt', 'county_id')]
+
+nc_vhis <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvhis_Statewide.txt", n_max = 1000000)
+nc_vhis <- nc_vhis[,c('county_id', 'county_desc', 'voter_reg_num', 'election_lbl')]
+
+nc_voter <- left_join(nc_reg, nc_vhis, by = c('voter_reg_num' = 'voter_reg_num', 'county_id' = 'county_id'))
+
+# Cleaning & Recoding
+
+# Remove Deceased 
+nc_voter <- filter(nc_voter, voter_status_desc != "REMOVED")
+nc_voter <- filter(nc_voter, election_lbl == "11/03/2020" | is.na(election_lbl))
+# Remove Old Votes
+
+
+# Adding Gini
+nc_gini <- county_gini_nc[,c("COUNTY", "AMEME001")]
+nc_codes <- read.csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_codes.csv")
+nc_gini <- left_join(nc_gini, nc_codes, by = "COUNTY")
+nc_voter <- left_join(nc_voter, nc_gini, by = "county_id")
+
+
+# Vote 2020
+nc_voter <-  mutate(nc_voter, vote2020 = case_when(nc_voter$election_lbl == "11/03/2020" ~ 1,
+                           is.na(election_lbl) ~ 0))
+
+
+# Registration Date (Month Before Election)
+
+
+# Party Recode 
+
+nc_voter <- mutate(nc_voter, democrat = case_when(nc_voter$party_cd == "DEM" ~ 1,
+                                             race_code != "DEM" ~ 0))
+
+nc_voter <- mutate(nc_voter, republican = case_when(nc_voter$party_cd == "REP" ~ 1,
+                                             race_code != "REP" ~ 0))
+
+nc_voter <- mutate(nc_voter, libertarian = case_when(nc_voter$party_cd == "LIB" ~ 1,
+                                             race_code != "LIB" ~ 0))
+
+nc_voter <- mutate(nc_voter, independent = case_when(nc_voter$party_cd == "UNA" ~ 1,
+                                             race_code != "UNA" ~ 0))
+
+
+# Gender 
+nc_voter <- mutate(nc_voter, male = case_when(nc_voter$gender_code == "M" ~ 1,
+                                             race_code != "M" ~ 0))
+nc_voter <- mutate(nc_voter, female = case_when(nc_voter$gender_code == "F" ~ 1,
+                                             race_code != "F" ~ 0))
+
+
+# Race:
+nc_voter <- mutate(nc_voter, asian = case_when(nc_voter$race_code == "A" ~ 1,
+                                             race_code != "A" ~ 0))
+
+nc_voter <- mutate(nc_voter, black = case_when(nc_voter$race_code == "B" ~ 1,
+                                             race_code != "B" ~ 0))
+
+nc_voter <- mutate(nc_voter, native = case_when(nc_voter$race_code == "I" ~ 1,
+                                             race_code != "I" ~ 0))
+
+nc_voter <- mutate(nc_voter, mixed = case_when(nc_voter$race_code == "M" ~ 1,
+                                             race_code != "M" ~ 0))
+
+nc_voter <- mutate(nc_voter, other = case_when(nc_voter$race_code == "O" ~ 1,
+                                             race_code != "O" ~ 0))
+
+nc_voter <- mutate(nc_voter, pacific = case_when(nc_voter$race_code == "P" ~ 1,
+                                             race_code != "P" ~ 0))
+
+nc_voter <- mutate(nc_voter, undesignated = case_when(nc_voter$race_code == "U" ~ 1,
+                                             race_code != "U" ~ 0))
+
+nc_voter <- mutate(nc_voter, white = case_when(nc_voter$race_code == "W" ~ 1,
+                                             race_code != "W" ~ 0))
+```
+
+<p>&nbsp;</p>
+
+# Data 
+
+<p>&nbsp;</p>
+
+# Looking at North Carolina
+
+##### Income Inequality by County
+```{r incomemap, echo = FALSE}
+tmap_mode("view")
+tm_shape(nc_county_gini) +
+  tm_polygons(col = "AMEME001", n = 8, palette ="BuGn", interactive = TRUE, id = "COUNTY", title = "Gini Coef.", legend.hist = TRUE, legend.is.portrait = FALSE, popup.vars = c("AMEME001")) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
+```
+
+##### Voter Turnout by County
+```{r turnoutmap, echo = FALSE}
+tm_shape(nc_county_gini) +
+  tm_polygons(col = "turnout", n = 8, palette ="Purples", interactive = TRUE, id = "COUNTY", title = "Voter Turnout (2020 General)", legend.hist = TRUE, legend.is.portrait = FALSE) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
+```
+
+# Primary Analysis: Individual-Level Model
+```{r model, echo = FALSE}
+
+vote.probit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age, family = binomial(link = "probit"), data = nc_voter, na.action = na.omit)
+
+stargazer (vote.probit, type = 'text')
+```
+
+ 
