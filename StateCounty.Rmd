@@ -83,10 +83,26 @@ county_turnout <- left_join (county_turnout, iso_gini, by = "GEOID")
 
 # Intro
 
+Previous literature suggests that the relationship between inequality and turnout is contingent on the level of analysis.  This section uses broad measures to examine this relationship at the state and county level using simple OLS models.  
+
+The data employed here is the same as discussed in the previous "Visualizations" section.
+
 <p>&nbsp;</p>
 
 # State-Level Analysis
 
+##### Visualizing State Inequality and Turnout (2020)
+```{r, echo = FALSE}
+ggplot(aes(x = gini, y = vep), data = states) +
+
+    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
+    labs(x = "Gini Coef.", y = "2020 VEP Turnout") +
+    theme_minimal() +
+    geom_text(aes(label = state), label.size = .1)
+```
+<p>&nbsp;</p>
+
+##### The Model
 ```{r, results = "asis"}
 state.lm <- lm(vep ~ gini, data = states)
 stargazer(state.lm, type = "html", title = "Income Inequality and State-Level Turnout (VEP)", covariate.labels = "Gini Coef.")
@@ -94,32 +110,48 @@ stargazer(state.lm, type = "html", title = "Income Inequality and State-Level Tu
 
 
 <p>&nbsp;</p>
+##### Interpretation
 
-```{r, echo = FALSE}
-ggplot(aes(x = gini, y = vep), data = states) +
-
-    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
-    labs(x = "Gini Coef.", y = "2020 VEP Turnout", title = "State Inequality and Turnout") +
-    theme_minimal() +
-    geom_text(aes(label = state), label.size = .1)
-```
+Consistent with the extant literature, we can see the relationship between inequality and voter turnout is negative at the state level (p value = 0.0576).
 
 <p>&nbsp;</p>
 
 # County-Level Analysis
-```{r, results = "asis"}
-county.lm <- lm(turnout ~ AMEME001, data = county_turnout)
-stargazer(county.lm, type = "html", title = "Income Inequality and County-Level Turnout (VAP Estimate)", covariate.labels = "Gini Coef.")
-```
 
 <p>&nbsp;</p>
+
+##### Visualizing County Inequality and Turnout (2020)
 
 ```{r, echo = FALSE}
 ggplot(aes(x = AMEME001, y = turnout), data = county_turnout) +
     geom_point()+
     geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
-    labs(x = "Gini Coef.", y = "2020 Turnout", title = "County Inequality and Turnout") +
+    labs(x = "Gini Coef.", y = "2020 Turnout") +
     theme_minimal()
 ```
 
+<p>&nbsp;</p>
 
+##### The Model
+```{r, results = "asis"}
+county.lm <- lm(turnout ~ AMEME001, data = county_turnout)
+stargazer(county.lm, type = "html", title = "Income Inequality and County-Level Turnout (VAP Estimate)", covariate.labels = "Gini Coef.")
+```
+##### Interpretation
+
+Surprisingly, the relationship holds even at the county level, which previous literature would not predict.  Moreover, while the coefficient is smaller than at the state level, this relationship is highly statistically significant.
+
+<p>&nbsp;</p>
+
+# Comparing
+
+```{r, results = "asis", echo = FALSE}
+stargazer(state.lm, county.lm, type = "html", covariate.labels = "Gini Coef.")
+```
+
+<p>&nbsp;</p>
+
+##### Possible Explanations
+1. The relationship between inequality and turnout at county-level is truly negative in the 2020 general election
+2. This relationship could be the misleading artifact of a rough turnout measure for counties
+3. This relationship could be the misleading artifact of comparing two different dependent variables (VEP vs. VAP)

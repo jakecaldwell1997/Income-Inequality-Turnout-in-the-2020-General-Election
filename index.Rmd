@@ -17,25 +17,36 @@ output: html_document
 <div class="row" style="padding-top: 30px;">
 <div class="col-sm-6">
 
-# **Income Inequality & Turnout**
+# **Income Inequality & Turnout in 2020 General Election**
 
-##### Introduction
+##### Introduction: The Question
 
-Income inequality is   
+Since the 1980s, inequality has risen in the United States, reaching heights not seen previously since the Gilded Age.  At the same time, certain political science research has found evidence suggesting that when rich and poor disagree on policy, the rich overwhelmingly "win" these disputes. Thus, I investigate whether greater income inequality influences voters' propensity to vote or not. 
 
 ##### Formative Literature 
+- Gilens and Page (2014)
+  - Notes that when rich & poor disagree on policy, the rich overwhelmingly "win" these disputes
 
+- McDonald (2014)
+  - Notes competing explanations of turnout look at different levels of aggregation
+    - Trust Model: State-level
+    - Conflict: County-level
+    
 
 
 ##### This Project  
 
-The following is an exploratory attempt to unravel the relationship between rising income inequality and voter turnout in the 2020 General Election.  I explore the relationship between the two from the broadest level of analysis to the most narrow available to me:  
+The following is an exploratory first step in unraveling the relationship between rising income inequality and voter turnout in the 2020 General Election.  I explore the relationship between the two from the broadest level of analysis to the most narrow:  
 
 - I begin with state-level analysis with a simple bi-variate regression between the variables of interest.  
 
 - From there, I do the same at the county level with a rough estimate of county-level turnout rates.  
 
 - The final and primary analysis is an in-depth look at North Carolina using data from the North Carolina State Board of Elections.
+
+##### References
+- <font size="1">Gilens, Martin and Benjamin Page. “Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens,” *Perspectives on Politics*, Vol. 12, No. 3 (September 2014): 564-581.
+- Michael P. McDonald. 2014. "Contextual Income Inequality and Political Behavior." in *Political Trust and Disenchantment with Politics: Comparative Perspectives from around the Globe*, Christina Eder, Ingvill Mochmann, Markus Quandt eds. Leiden, Netherlands: Brill Publishers.<font>
 
 
 </div>

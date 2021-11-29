@@ -125,7 +125,17 @@ nc_voter <- mutate(nc_voter, white = case_when(nc_voter$race_code == "W" ~ 1,
 
 <p>&nbsp;</p>
 
+# Introduction
+
+This section zooms in to North Carolina as a case study in investigating our relationship of interest.  
+
+Here, we are able to visualize the state in detail and leverage its publically available voter files to examine how county-level inequality influences propensity to vote while controlling for other factors.
+
 # Data 
+
+All data employed in this analysis was collected from the [North Carolina State Board of Elections](https://www.ncsbe.gov/) website in conjunction with ACS income inequality data.  
+
+**NOTE:** North Carolina calculates turnout by the formula: $turnout = {votes\space cast\over registered \space voters}$, not traditional VEP/VAP standards
 
 <p>&nbsp;</p>
 
@@ -138,20 +148,24 @@ tm_shape(nc_county_gini) +
   tm_polygons(col = "AMEME001", n = 8, palette ="BuGn", interactive = TRUE, id = "COUNTY", title = "Gini Coef.", legend.hist = TRUE, legend.is.portrait = FALSE, popup.vars = c("AMEME001")) +
   tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
 ```
+Interactive map displaying Gini Coefficients (2015-2019) per County.
 
+<p>&nbsp;</p>
 ##### Voter Turnout by County
 ```{r turnoutmap, echo = FALSE}
 tm_shape(nc_county_gini) +
   tm_polygons(col = "turnout", n = 8, palette ="Purples", interactive = TRUE, id = "COUNTY", title = "Voter Turnout (2020 General)", legend.hist = TRUE, legend.is.portrait = FALSE) +
   tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
 ```
+Interactive map displaying voter turnout (2020 General Election) per County.
 
+<p>&nbsp;</p>
 # Primary Analysis: Individual-Level Model
-```{r model, echo = FALSE}
+```{r model, echo = FALSE, results = "asis"}
 
 vote.probit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age, family = binomial(link = "probit"), data = nc_voter, na.action = na.omit)
 
-stargazer (vote.probit, type = 'text')
+stargazer (vote.probit, type = 'html')
 ```
 
  

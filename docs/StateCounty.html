@@ -381,12 +381,23 @@ div.tocify {
 
 <div id="intro" class="section level1">
 <h1>Intro</h1>
+<p>Previous literature suggests that the relationship between inequality and turnout is contingent on the level of analysis. This section uses broad measures to examine this relationship at the state and county level using simple OLS models.</p>
+<p>The data employed here is the same as discussed in the previous “Visualizations” section.</p>
 <p>
  
 </p>
 </div>
 <div id="state-level-analysis" class="section level1">
 <h1>State-Level Analysis</h1>
+<div id="visualizing-state-inequality-and-turnout-2020" class="section level5">
+<h5>Visualizing State Inequality and Turnout (2020)</h5>
+<img src="StateCounty_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+<p>
+ 
+</p>
+</div>
+<div id="the-model" class="section level5">
+<h5>The Model</h5>
 <pre class="r"><code>state.lm &lt;- lm(vep ~ gini, data = states)
 stargazer(state.lm, type = &quot;html&quot;, title = &quot;Income Inequality and State-Level Turnout (VEP)&quot;, covariate.labels = &quot;Gini Coef.&quot;)</code></pre>
 <table style="text-align:center">
@@ -523,13 +534,29 @@ F Statistic
 <p>
  
 </p>
-<p><img src="StateCounty_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="interpretation" class="section level5">
+<h5>Interpretation</h5>
+<p>Consistent with the extant literature, we can see the relationship between inequality and voter turnout is negative at the state level (p value = 0.0576).</p>
 <p>
  
 </p>
 </div>
+</div>
 <div id="county-level-analysis" class="section level1">
 <h1>County-Level Analysis</h1>
+<p>
+ 
+</p>
+<div id="visualizing-county-inequality-and-turnout-2020" class="section level5">
+<h5>Visualizing County Inequality and Turnout (2020)</h5>
+<p><img src="StateCounty_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>
+ 
+</p>
+</div>
+<div id="the-model-1" class="section level5">
+<h5>The Model</h5>
 <pre class="r"><code>county.lm &lt;- lm(turnout ~ AMEME001, data = county_turnout)
 stargazer(county.lm, type = &quot;html&quot;, title = &quot;Income Inequality and County-Level Turnout (VAP Estimate)&quot;, covariate.labels = &quot;Gini Coef.&quot;)</code></pre>
 <table style="text-align:center">
@@ -663,10 +690,225 @@ F Statistic
 </td>
 </tr>
 </table>
+</div>
+<div id="interpretation-1" class="section level5">
+<h5>Interpretation</h5>
+<p>Surprisingly, the relationship holds even at the county level, which previous literature would not predict. Moreover, while the coefficient is smaller than at the state level, this relationship is highly statistically significant.</p>
 <p>
  
 </p>
-<p><img src="StateCounty_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="comparison" class="section level1">
+<h1>Comparison</h1>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+vep
+</td>
+<td>
+turnout
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Gini Coef.
+</td>
+<td>
+-0.801<sup>*</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.412)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+AMEME001
+</td>
+<td>
+</td>
+<td>
+-0.666<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.051)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+1.051<sup>***</sup>
+</td>
+<td>
+0.956<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.192)
+</td>
+<td>
+(0.023)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+48
+</td>
+<td>
+2,991
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.076
+</td>
+<td>
+0.053
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.056
+</td>
+<td>
+0.053
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.059 (df = 46)
+</td>
+<td>
+0.100 (df = 2989)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+3.792<sup>*</sup> (df = 1; 46)
+</td>
+<td>
+168.430<sup>***</sup> (df = 1; 2989)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>
+ 
+</p>
+<div id="possible-explanations" class="section level5">
+<h5>Possible Explanations</h5>
+<ol style="list-style-type: decimal">
+<li>The relationship between inequality and turnout at county-level is truly negative in the 2020 general election</li>
+<li>This relationship could be the misleading artifact of a rough turnout measure for counties</li>
+<li>This relationship could be the misleading artifact of comparing two different dependent variables (VEP vs. VAP)</li>
+</ol>
+</div>
 </div>
 
 
