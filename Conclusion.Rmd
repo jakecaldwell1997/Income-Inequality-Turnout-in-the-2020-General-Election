@@ -26,7 +26,7 @@ The contributions made in this project, unfortunately, suffer from a few critica
 - Absence of random sampling in individual-level analysis  
 - Focus on single election 
 - Inability to compare influence of state & county inequality on the individual propensity to vote (North Carolina only)
-- Individual-level analysis does not include non-registered but voting-eligible citizens 
+- Individual-level analysis does not include non-registered, but only voting-eligible citizens 
 
 Keeping these limitations in mind, we must recognize the results of this project as a step toward a more robust analysis in the future, and take them with a grain of salt.
 

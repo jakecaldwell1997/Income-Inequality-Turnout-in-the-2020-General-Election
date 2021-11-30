@@ -21,7 +21,7 @@ output: html_document
 
 ##### Introduction: The Question
 
-Since the 1980s, inequality has risen in the United States, reaching heights not seen previously since the Gilded Age.  At the same time, certain political science research has found evidence suggesting economic inequality and political equality coincide. Thus, I investigate whether greater income inequality influences voters' propensity to vote or not. 
+Since the 1980s, inequality has risen in the United States, reaching heights not seen previously since the Gilded Age.  At the same time, certain political science research has found evidence suggesting economic and political equality coincide. Thus, I investigate whether greater income inequality influences voters' propensity to vote or not. 
 
 ##### Formative Literature 
 - Gilens and Page (2014)
