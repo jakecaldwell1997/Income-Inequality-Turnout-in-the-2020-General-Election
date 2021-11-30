@@ -28,7 +28,7 @@ Since the 1980s, inequality has risen in the United States, reaching heights not
   - Notes that when rich & poor disagree on policy, the rich overwhelmingly "win" these disputes
 
 - McDonald (2014)
-  - Notes competing explanations of the turnout-inequality relationship look at different levels of aggregation
+  - Notes competing explanations of the turnout/inequality relationship look at different levels of aggregation
     - Trust Model: State-level
     - Conflict: County-level
     
