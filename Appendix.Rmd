@@ -1,0 +1,276 @@
+---
+title: "Appendix"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+# Data & Recoding
+
+### State-Level Data
+```{r, eval = FALSE, echo = TRUE}
+
+# State Turnout (ElectProject Data)
+state_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_turnout_2020.csv") [-1,]
+state_turnout <- state_turnout[,c('State', 'X6')]
+names(state_turnout) <- c('state',
+                          'vep')
+state_turnout$vep <- as.numeric(sub("%","",state_turnout$vep))/100
+
+# State Gini (American Community Survey Data)
+
+state_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_gini.csv") 
+state_gini <- state_gini[,c('STATE', 'AMEME001')]
+names(state_gini) <- c('state', 'gini')
+
+# State Join
+states <- left_join(state_turnout, state_gini, by = 'state')
+states <- na.omit(states)
+```
+
+### County-Level Data
+```{r, eval = FALSE, echo = TRUE}
+# County Gini (ACS Data)
+
+county_gini <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/county_gini.csv")
+
+# County Turnout
+
+## Voters (Raw Number, MIT Data)
+
+countyvote <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/countypres_2000-2020.csv") %>%
+  filter(year == "2020")
+
+countyvote$county <- paste(countyvote$county_name, countyvote$state, sep = " County, ")
+
+cvote <- countyvote %>%
+	group_by(county) %>%
+	summarise(vote = sum(candidatevotes))
+
+cvote$county <- str_to_title(cvote$county)
+
+# VAP Estimate (Census Bureau Data)
+countyvap <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/CVAP_county.csv") %>%
+    filter(lntitle == "Total")
+
+countyvap <- rename(countyvap, GEOID = geoid)
+
+countyvap <- countyvap[,c('GEOID', 'geoname', 'cvap_est')]
+countyvap <- rename(countyvap, county = geoname)
+countyvap$county <- str_to_title(countyvap$county)
+
+county_turnout <- left_join(countyvap, cvote, by = "county")
+county_turnout$turnout <- county_turnout$vote/county_turnout$cvap_est
+county_turnout <- filter(county_turnout, turnout < 1)
+
+# Adding County Gini (ACS Data)
+iso_gini <- county_gini[,c('GEOID', 'AMEME001')]
+county_turnout <- left_join (county_turnout, iso_gini, by = "GEOID")
+```
+
+### North Carolina Data
+```{r, eval = FALSE, echo = TRUE}
+# North Carolina County-Level Turnout Among Registered Voters  (NCSBE Data 2020)
+
+nc_turnout <- read_csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_turnout.csv")
+
+# North Carolina Map Data (TIGER/Line Census Bureau Data) 
+
+nc_county <- st_read(dsn = "/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_county20.shp")
+
+# Joining Gini and Shape Files
+
+county_gini_nc <- county_gini %>%
+  filter(STATE == "North Carolina") %>%
+  mutate(GEOID20 = str_c(STATEA, COUNTYA))
+
+nc_county_gini <- left_join(nc_county, county_gini_nc, by = "GEOID20")
+nc_county_gini <- left_join(nc_county_gini, nc_turnout, by = "NAMELSAD20")
+
+# Voter File Data
+nc_reg <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvoter_Statewide.txt", n_max = 1000000)
+nc_reg <- nc_reg[,c('voter_reg_num', 'voter_status_desc', 'voter_status_reason_desc', 'race_code', 'ethnic_code', 'party_cd', 'gender_code', 'birth_age', 'registr_dt', 'county_id')]
+
+nc_vhis <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvhis_Statewide.txt", n_max = 1000000)
+nc_vhis <- nc_vhis[,c('county_id', 'county_desc', 'voter_reg_num', 'election_lbl')]
+
+nc_voter <- left_join(nc_reg, nc_vhis, by = c('voter_reg_num' = 'voter_reg_num', 'county_id' = 'county_id'))
+
+# Cleaning & Recoding
+
+# Remove Deceased 
+nc_voter <- filter(nc_voter, voter_status_desc != "REMOVED")
+nc_voter <- filter(nc_voter, election_lbl == "11/03/2020" | is.na(election_lbl))
+# Remove Old Votes
+
+
+# Adding Gini
+nc_gini <- county_gini_nc[,c("COUNTY", "AMEME001")]
+nc_codes <- read.csv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_codes.csv")
+nc_gini <- left_join(nc_gini, nc_codes, by = "COUNTY")
+nc_voter <- left_join(nc_voter, nc_gini, by = "county_id")
+
+
+# Vote 2020
+nc_voter <-  mutate(nc_voter, vote2020 = case_when(nc_voter$election_lbl == "11/03/2020" ~ 1,
+                           is.na(election_lbl) ~ 0))
+
+
+# Registration Date (Month Before Election)
+nc_voter$regdat <- as.Date(nc_voter$registr_dt, "%m/%d/%Y")
+nc_voter <- mutate(nc_voter, mobilized = case_when(nc_voter$regdat > "2020-10-3" ~ 1,
+                                                   regdat < "2020-10-3" ~ 0))
+
+
+# Party Recode 
+
+nc_voter <- mutate(nc_voter, democrat = case_when(nc_voter$party_cd == "DEM" ~ 1,
+                                             race_code != "DEM" ~ 0))
+
+nc_voter <- mutate(nc_voter, republican = case_when(nc_voter$party_cd == "REP" ~ 1,
+                                             race_code != "REP" ~ 0))
+
+nc_voter <- mutate(nc_voter, libertarian = case_when(nc_voter$party_cd == "LIB" ~ 1,
+                                             race_code != "LIB" ~ 0))
+
+nc_voter <- mutate(nc_voter, independent = case_when(nc_voter$party_cd == "UNA" ~ 1,
+                                             race_code != "UNA" ~ 0))
+
+
+# Gender 
+nc_voter <- mutate(nc_voter, male = case_when(nc_voter$gender_code == "M" ~ 1,
+                                             race_code != "M" ~ 0))
+nc_voter <- mutate(nc_voter, female = case_when(nc_voter$gender_code == "F" ~ 1,
+                                             race_code != "F" ~ 0))
+
+
+# Race:
+nc_voter <- mutate(nc_voter, asian = case_when(nc_voter$race_code == "A" ~ 1,
+                                             race_code != "A" ~ 0))
+
+nc_voter <- mutate(nc_voter, black = case_when(nc_voter$race_code == "B" ~ 1,
+                                             race_code != "B" ~ 0))
+
+nc_voter <- mutate(nc_voter, native = case_when(nc_voter$race_code == "I" ~ 1,
+                                             race_code != "I" ~ 0))
+
+nc_voter <- mutate(nc_voter, mixed = case_when(nc_voter$race_code == "M" ~ 1,
+                                             race_code != "M" ~ 0))
+
+nc_voter <- mutate(nc_voter, other = case_when(nc_voter$race_code == "O" ~ 1,
+                                             race_code != "O" ~ 0))
+
+nc_voter <- mutate(nc_voter, pacific = case_when(nc_voter$race_code == "P" ~ 1,
+                                             race_code != "P" ~ 0))
+
+nc_voter <- mutate(nc_voter, undesignated = case_when(nc_voter$race_code == "U" ~ 1,
+                                             race_code != "U" ~ 0))
+
+nc_voter <- mutate(nc_voter, white = case_when(nc_voter$race_code == "W" ~ 1,
+                                             race_code != "W" ~ 0))
+
+```
+
+
+# Codes
+
+### Visualizations
+```{r, eval = FALSE, echo = TRUE}
+# Inequality Histograms
+state.ineq.hist <- ggplot(data = states, mapping = aes(x = gini)) +
+  geom_histogram(binwidth = 0.01, color = "darkgreen", fill = "forestgreen") +
+  geom_vline(xintercept = mean(states$gini), col = "darkblue", lwd = 1) +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = "State Inequality") +
+  xlab("Gini Coefficient") +
+  ylab("Count") +
+  theme_minimal()
+
+county.ineq.hist <- ggplot(data = county_turnout, mapping = aes(x = AMEME001)) +
+  geom_histogram(binwidth = 0.01, color = "darkgreen", fill = "forestgreen") +
+  geom_vline(xintercept = mean(county_turnout$AMEME001), col = "darkblue", lwd = 1) +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = "County Inequality") +
+  xlab("Gini Coefficient") +
+  ylab("Count") +
+  theme_minimal()
+
+grid.arrange(state.ineq.hist, county.ineq.hist, ncol = 2)
+
+# Turnout Histograms
+
+state.turn.hist <- ggplot(data = states, mapping = aes(x = vep)) +
+  geom_histogram(binwidth = 0.015, color = "darkblue", fill = "navyblue") +
+  geom_vline(xintercept = mean(states$vep), col = "forestgreen", lwd = 1) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "State Turnout (VEP)") +
+  xlab("VEP Turnout Rate") +
+  ylab("Count") +
+  theme_minimal()
+
+county.turn.hist <- ggplot(data = county_turnout, mapping = aes(x = turnout)) +
+  geom_histogram(binwidth = 0.015, color = "darkblue", fill = "navyblue") +
+  geom_vline(xintercept = mean(county_turnout$turnout), col = "forestgreen", lwd = 1) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "County Turnout (VAP Estimate)") +
+  xlab("VAP Turnout Rate") +
+  ylab("Count") +
+  theme_minimal()
+
+grid.arrange(state.turn.hist, county.turn.hist, ncol = 2)
+```
+
+### State & County
+
+```{r, eval = FALSE, echo = TRUE}
+# State-Level Analysis
+## Plot
+ggplot(aes(x = gini, y = vep), data = states) +
+    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
+    labs(x = "Gini Coef.", y = "2020 VEP Turnout") +
+    theme_minimal() +
+    geom_text(aes(label = state), label.size = .1)
+
+## Model
+state.lm <- lm(vep ~ gini, data = states)
+stargazer(state.lm, type = "html", title = "Income Inequality and State-Level Turnout (VEP)", covariate.labels = "Gini Coef.")
+
+# County-Level Analysis
+## Plot
+ggplot(aes(x = AMEME001, y = turnout), data = county_turnout) +
+    geom_point()+
+    geom_smooth(method = "lm", fill = "gray", col = "red", se = TRUE) +
+    labs(x = "Gini Coef.", y = "2020 Turnout") +
+    theme_minimal()
+## Model
+county.lm <- lm(turnout ~ AMEME001, data = county_turnout)
+stargazer(county.lm, type = "html", title = "Income Inequality and County-Level Turnout (VAP Estimate)", covariate.labels = "Gini Coef.")
+```
+
+### North Carolina
+
+```{r, eval = FALSE, echo = TRUE}
+# Map: Income Inequality by County
+tmap_mode("view")
+tm_shape(nc_county_gini) +
+  tm_polygons(col = "AMEME001", n = 8, palette ="BuGn", interactive = TRUE, id = "COUNTY", title = "Gini Coef.", legend.hist = TRUE, legend.is.portrait = FALSE, popup.vars = c("AMEME001")) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
+# Map: Voter Turnout by County
+tm_shape(nc_county_gini) +
+  tm_polygons(col = "turnout", n = 8, palette ="Purples", interactive = TRUE, id = "COUNTY", title = "Voter Turnout (2020 General)", legend.hist = TRUE, legend.is.portrait = FALSE) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
+
+
+```
+
+
+

@@ -73,6 +73,9 @@ nc_voter <-  mutate(nc_voter, vote2020 = case_when(nc_voter$election_lbl == "11/
 
 
 # Registration Date (Month Before Election)
+nc_voter$regdat <- as.Date(nc_voter$registr_dt, "%m/%d/%Y")
+nc_voter <- mutate(nc_voter, mobilized = case_when(nc_voter$regdat > "2020-10-3" ~ 1,
+                                                   regdat < "2020-10-3" ~ 0))
 
 
 # Party Recode 
@@ -163,7 +166,7 @@ Interactive map displaying voter turnout (2020 General Election) per County.
 # Primary Analysis: Individual-Level Model
 ```{r model, echo = FALSE, results = "asis"}
 
-vote.probit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age, family = binomial(link = "probit"), data = nc_voter, na.action = na.omit)
+vote.probit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age + mobilized, family = binomial(link = "probit"), data = nc_voter, na.action = na.omit)
 
 stargazer (vote.probit, type = 'html')
 ```

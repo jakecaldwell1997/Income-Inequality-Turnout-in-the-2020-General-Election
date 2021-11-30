@@ -10,6 +10,8 @@ navbar:
       href: StateCounty.html
     - text: "North Carolina"
       href: NorthCarolina.html
-    - text: "Links"
-      href: Links.html
+    - text: "Conclusion"
+      href: Conclusion.html
+    - text: "Appendix"
+      href: Appendix.html
 output_dir: "docs"

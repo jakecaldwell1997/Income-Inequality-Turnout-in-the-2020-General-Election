@@ -13,16 +13,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 library(tidyverse)
-library(sf)
-library(spData)
-library(spDataLarge)
-library(tmap)
-library(leaflet)
-library(RColorBrewer)
-library(stringr)
-library(data.table)
-library(stargazer)
-library(gridExtra)
 ```
 
 ```{r data setup, include = FALSE}
@@ -83,13 +73,19 @@ county_turnout <- left_join (county_turnout, iso_gini, by = "GEOID")
 
 # Intro
 
-Previous literature suggests that the relationship between inequality and turnout is contingent on the level of analysis.  This section uses broad measures to examine this relationship at the state and county level using simple OLS models.  
+Previous literature suggests that the relationship between inequality and turnout is, to a degree, contingent on the level of analysis.  This section uses broad measures to examine this relationship at the state and county level, employing bivariate OLS models.  
 
 The data employed here is the same as discussed in the previous "Visualizations" section.
 
 <p>&nbsp;</p>
 
 # State-Level Analysis
+
+```{r}
+library(tidyverse)
+library(stargazer)
+```
+
 
 ##### Visualizing State Inequality and Turnout (2020)
 ```{r, echo = FALSE}

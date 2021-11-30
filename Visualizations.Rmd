@@ -12,17 +12,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
-library(tidyverse)
-library(sf)
-library(spData)
-library(spDataLarge)
-library(tmap)
-library(leaflet)
-library(RColorBrewer)
-library(stringr)
-library(data.table)
-library(stargazer)
-library(gridExtra)
+
 ```
 
 ```{r data setup, include = FALSE}
@@ -98,6 +88,11 @@ The data used to generate the proceeding plots were collected from the following
 ##### Measuring Inequality
 
 Income inequality is generally measured via Gini coefficient, which ranges in value from 0 to 1.  A value of 0 suggests income is distributed entirely equally, while a value of 1 suggests that the entirety of the population's wealth is concentrated in one person.
+
+```{r}
+library(tidyverse)
+```
+
 
 ```{r ineq, warning = FALSE, echo = FALSE}
 

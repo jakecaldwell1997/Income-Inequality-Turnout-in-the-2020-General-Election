@@ -360,7 +360,10 @@ div.tocify {
   <a href="NorthCarolina.html">North Carolina</a>
 </li>
 <li>
-  <a href="Links.html">Links</a>
+  <a href="Conclusion.html">Conclusion</a>
+</li>
+<li>
+  <a href="Appendix.html">Appendix</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -381,7 +384,7 @@ div.tocify {
 
 <div id="intro" class="section level1">
 <h1>Intro</h1>
-<p>Previous literature suggests that the relationship between inequality and turnout is contingent on the level of analysis. This section uses broad measures to examine this relationship at the state and county level using simple OLS models.</p>
+<p>Previous literature suggests that the relationship between inequality and turnout is, to a degree, contingent on the level of analysis. This section uses broad measures to examine this relationship at the state and county level, employing bivariate OLS models.</p>
 <p>The data employed here is the same as discussed in the previous “Visualizations” section.</p>
 <p>
  
@@ -389,9 +392,11 @@ div.tocify {
 </div>
 <div id="state-level-analysis" class="section level1">
 <h1>State-Level Analysis</h1>
+<pre class="r"><code>library(tidyverse)
+library(stargazer)</code></pre>
 <div id="visualizing-state-inequality-and-turnout-2020" class="section level5">
 <h5>Visualizing State Inequality and Turnout (2020)</h5>
-<img src="StateCounty_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+<img src="StateCounty_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <p>
  
 </p>
@@ -550,7 +555,7 @@ F Statistic
 </p>
 <div id="visualizing-county-inequality-and-turnout-2020" class="section level5">
 <h5>Visualizing County Inequality and Turnout (2020)</h5>
-<p><img src="StateCounty_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="StateCounty_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>
  
 </p>
@@ -699,8 +704,8 @@ F Statistic
 </p>
 </div>
 </div>
-<div id="comparison" class="section level1">
-<h1>Comparison</h1>
+<div id="comparing" class="section level1">
+<h1>Comparing</h1>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Appendix</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jake Caldwell</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Introduction</a>
+</li>
+<li>
+  <a href="Visualizations.html">Visualizations</a>
+</li>
+<li>
+  <a href="StateCounty.html">State &amp; County</a>
+</li>
+<li>
+  <a href="NorthCarolina.html">North Carolina</a>
+</li>
+<li>
+  <a href="Conclusion.html">Conclusion</a>
+</li>
+<li>
+  <a href="Appendix.html">Appendix</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Appendix</h1>
+
+</div>
+
+
+<div id="data-recoding" class="section level1">
+<h1>Data &amp; Recoding</h1>
+<div id="state-level-data" class="section level3">
+<h3>State-Level Data</h3>
+<pre class="r"><code># State Turnout (ElectProject Data)
+state_turnout &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_turnout_2020.csv&quot;) [-1,]
+state_turnout &lt;- state_turnout[,c(&#39;State&#39;, &#39;X6&#39;)]
+names(state_turnout) &lt;- c(&#39;state&#39;,
+                          &#39;vep&#39;)
+state_turnout$vep &lt;- as.numeric(sub(&quot;%&quot;,&quot;&quot;,state_turnout$vep))/100
+
+# State Gini (American Community Survey Data)
+
+state_gini &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/state_gini.csv&quot;) 
+state_gini &lt;- state_gini[,c(&#39;STATE&#39;, &#39;AMEME001&#39;)]
+names(state_gini) &lt;- c(&#39;state&#39;, &#39;gini&#39;)
+
+# State Join
+states &lt;- left_join(state_turnout, state_gini, by = &#39;state&#39;)
+states &lt;- na.omit(states)</code></pre>
+</div>
+<div id="county-level-data" class="section level3">
+<h3>County-Level Data</h3>
+<pre class="r"><code># County Gini (ACS Data)
+
+county_gini &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/county_gini.csv&quot;)
+
+# County Turnout
+
+## Voters (Raw Number, MIT Data)
+
+countyvote &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/countypres_2000-2020.csv&quot;) %&gt;%
+  filter(year == &quot;2020&quot;)
+
+countyvote$county &lt;- paste(countyvote$county_name, countyvote$state, sep = &quot; County, &quot;)
+
+cvote &lt;- countyvote %&gt;%
+    group_by(county) %&gt;%
+    summarise(vote = sum(candidatevotes))
+
+cvote$county &lt;- str_to_title(cvote$county)
+
+# VAP Estimate (Census Bureau Data)
+countyvap &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/CVAP_county.csv&quot;) %&gt;%
+    filter(lntitle == &quot;Total&quot;)
+
+countyvap &lt;- rename(countyvap, GEOID = geoid)
+
+countyvap &lt;- countyvap[,c(&#39;GEOID&#39;, &#39;geoname&#39;, &#39;cvap_est&#39;)]
+countyvap &lt;- rename(countyvap, county = geoname)
+countyvap$county &lt;- str_to_title(countyvap$county)
+
+county_turnout &lt;- left_join(countyvap, cvote, by = &quot;county&quot;)
+county_turnout$turnout &lt;- county_turnout$vote/county_turnout$cvap_est
+county_turnout &lt;- filter(county_turnout, turnout &lt; 1)
+
+# Adding County Gini (ACS Data)
+iso_gini &lt;- county_gini[,c(&#39;GEOID&#39;, &#39;AMEME001&#39;)]
+county_turnout &lt;- left_join (county_turnout, iso_gini, by = &quot;GEOID&quot;)</code></pre>
+</div>
+<div id="north-carolina-data" class="section level3">
+<h3>North Carolina Data</h3>
+<pre class="r"><code># North Carolina County-Level Turnout Among Registered Voters  (NCSBE Data 2020)
+
+nc_turnout &lt;- read_csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_turnout.csv&quot;)
+
+# North Carolina Map Data (TIGER/Line Census Bureau Data) 
+
+nc_county &lt;- st_read(dsn = &quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_county20.shp&quot;)
+
+# Joining Gini and Shape Files
+
+county_gini_nc &lt;- county_gini %&gt;%
+  filter(STATE == &quot;North Carolina&quot;) %&gt;%
+  mutate(GEOID20 = str_c(STATEA, COUNTYA))
+
+nc_county_gini &lt;- left_join(nc_county, county_gini_nc, by = &quot;GEOID20&quot;)
+nc_county_gini &lt;- left_join(nc_county_gini, nc_turnout, by = &quot;NAMELSAD20&quot;)
+
+# Voter File Data
+nc_reg &lt;- read_tsv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvoter_Statewide.txt&quot;, n_max = 1000000)
+nc_reg &lt;- nc_reg[,c(&#39;voter_reg_num&#39;, &#39;voter_status_desc&#39;, &#39;voter_status_reason_desc&#39;, &#39;race_code&#39;, &#39;ethnic_code&#39;, &#39;party_cd&#39;, &#39;gender_code&#39;, &#39;birth_age&#39;, &#39;registr_dt&#39;, &#39;county_id&#39;)]
+
+nc_vhis &lt;- read_tsv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvhis_Statewide.txt&quot;, n_max = 1000000)
+nc_vhis &lt;- nc_vhis[,c(&#39;county_id&#39;, &#39;county_desc&#39;, &#39;voter_reg_num&#39;, &#39;election_lbl&#39;)]
+
+nc_voter &lt;- left_join(nc_reg, nc_vhis, by = c(&#39;voter_reg_num&#39; = &#39;voter_reg_num&#39;, &#39;county_id&#39; = &#39;county_id&#39;))
+
+# Cleaning &amp; Recoding
+
+# Remove Deceased 
+nc_voter &lt;- filter(nc_voter, voter_status_desc != &quot;REMOVED&quot;)
+nc_voter &lt;- filter(nc_voter, election_lbl == &quot;11/03/2020&quot; | is.na(election_lbl))
+# Remove Old Votes
+
+
+# Adding Gini
+nc_gini &lt;- county_gini_nc[,c(&quot;COUNTY&quot;, &quot;AMEME001&quot;)]
+nc_codes &lt;- read.csv(&quot;/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/nc_codes.csv&quot;)
+nc_gini &lt;- left_join(nc_gini, nc_codes, by = &quot;COUNTY&quot;)
+nc_voter &lt;- left_join(nc_voter, nc_gini, by = &quot;county_id&quot;)
+
+
+# Vote 2020
+nc_voter &lt;-  mutate(nc_voter, vote2020 = case_when(nc_voter$election_lbl == &quot;11/03/2020&quot; ~ 1,
+                           is.na(election_lbl) ~ 0))
+
+
+# Registration Date (Month Before Election)
+nc_voter$regdat &lt;- as.Date(nc_voter$registr_dt, &quot;%m/%d/%Y&quot;)
+nc_voter &lt;- mutate(nc_voter, mobilized = case_when(nc_voter$regdat &gt; &quot;2020-10-3&quot; ~ 1,
+                                                   regdat &lt; &quot;2020-10-3&quot; ~ 0))
+
+
+# Party Recode 
+
+nc_voter &lt;- mutate(nc_voter, democrat = case_when(nc_voter$party_cd == &quot;DEM&quot; ~ 1,
+                                             race_code != &quot;DEM&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, republican = case_when(nc_voter$party_cd == &quot;REP&quot; ~ 1,
+                                             race_code != &quot;REP&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, libertarian = case_when(nc_voter$party_cd == &quot;LIB&quot; ~ 1,
+                                             race_code != &quot;LIB&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, independent = case_when(nc_voter$party_cd == &quot;UNA&quot; ~ 1,
+                                             race_code != &quot;UNA&quot; ~ 0))
+
+
+# Gender 
+nc_voter &lt;- mutate(nc_voter, male = case_when(nc_voter$gender_code == &quot;M&quot; ~ 1,
+                                             race_code != &quot;M&quot; ~ 0))
+nc_voter &lt;- mutate(nc_voter, female = case_when(nc_voter$gender_code == &quot;F&quot; ~ 1,
+                                             race_code != &quot;F&quot; ~ 0))
+
+
+# Race:
+nc_voter &lt;- mutate(nc_voter, asian = case_when(nc_voter$race_code == &quot;A&quot; ~ 1,
+                                             race_code != &quot;A&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, black = case_when(nc_voter$race_code == &quot;B&quot; ~ 1,
+                                             race_code != &quot;B&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, native = case_when(nc_voter$race_code == &quot;I&quot; ~ 1,
+                                             race_code != &quot;I&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, mixed = case_when(nc_voter$race_code == &quot;M&quot; ~ 1,
+                                             race_code != &quot;M&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, other = case_when(nc_voter$race_code == &quot;O&quot; ~ 1,
+                                             race_code != &quot;O&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, pacific = case_when(nc_voter$race_code == &quot;P&quot; ~ 1,
+                                             race_code != &quot;P&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, undesignated = case_when(nc_voter$race_code == &quot;U&quot; ~ 1,
+                                             race_code != &quot;U&quot; ~ 0))
+
+nc_voter &lt;- mutate(nc_voter, white = case_when(nc_voter$race_code == &quot;W&quot; ~ 1,
+                                             race_code != &quot;W&quot; ~ 0))</code></pre>
+</div>
+</div>
+<div id="codes" class="section level1">
+<h1>Codes</h1>
+<div id="visualizations" class="section level3">
+<h3>Visualizations</h3>
+<pre class="r"><code># Inequality Histograms
+state.ineq.hist &lt;- ggplot(data = states, mapping = aes(x = gini)) +
+  geom_histogram(binwidth = 0.01, color = &quot;darkgreen&quot;, fill = &quot;forestgreen&quot;) +
+  geom_vline(xintercept = mean(states$gini), col = &quot;darkblue&quot;, lwd = 1) +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = &quot;State Inequality&quot;) +
+  xlab(&quot;Gini Coefficient&quot;) +
+  ylab(&quot;Count&quot;) +
+  theme_minimal()
+
+county.ineq.hist &lt;- ggplot(data = county_turnout, mapping = aes(x = AMEME001)) +
+  geom_histogram(binwidth = 0.01, color = &quot;darkgreen&quot;, fill = &quot;forestgreen&quot;) +
+  geom_vline(xintercept = mean(county_turnout$AMEME001), col = &quot;darkblue&quot;, lwd = 1) +
+  coord_cartesian(xlim = c(0.3, 0.65)) +
+  labs(title = &quot;County Inequality&quot;) +
+  xlab(&quot;Gini Coefficient&quot;) +
+  ylab(&quot;Count&quot;) +
+  theme_minimal()
+
+grid.arrange(state.ineq.hist, county.ineq.hist, ncol = 2)
+
+# Turnout Histograms
+
+state.turn.hist &lt;- ggplot(data = states, mapping = aes(x = vep)) +
+  geom_histogram(binwidth = 0.015, color = &quot;darkblue&quot;, fill = &quot;navyblue&quot;) +
+  geom_vline(xintercept = mean(states$vep), col = &quot;forestgreen&quot;, lwd = 1) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = &quot;State Turnout (VEP)&quot;) +
+  xlab(&quot;VEP Turnout Rate&quot;) +
+  ylab(&quot;Count&quot;) +
+  theme_minimal()
+
+county.turn.hist &lt;- ggplot(data = county_turnout, mapping = aes(x = turnout)) +
+  geom_histogram(binwidth = 0.015, color = &quot;darkblue&quot;, fill = &quot;navyblue&quot;) +
+  geom_vline(xintercept = mean(county_turnout$turnout), col = &quot;forestgreen&quot;, lwd = 1) +
+  coord_cartesian(xlim = c(0, 1)) +
+  labs(title = &quot;County Turnout (VAP Estimate)&quot;) +
+  xlab(&quot;VAP Turnout Rate&quot;) +
+  ylab(&quot;Count&quot;) +
+  theme_minimal()
+
+grid.arrange(state.turn.hist, county.turn.hist, ncol = 2)</code></pre>
+</div>
+<div id="state-county" class="section level3">
+<h3>State &amp; County</h3>
+<pre class="r"><code># State-Level Analysis
+## Plot
+ggplot(aes(x = gini, y = vep), data = states) +
+    geom_smooth(method = &quot;lm&quot;, fill = &quot;gray&quot;, col = &quot;red&quot;, se = TRUE) +
+    labs(x = &quot;Gini Coef.&quot;, y = &quot;2020 VEP Turnout&quot;) +
+    theme_minimal() +
+    geom_text(aes(label = state), label.size = .1)
+
+## Model
+state.lm &lt;- lm(vep ~ gini, data = states)
+stargazer(state.lm, type = &quot;html&quot;, title = &quot;Income Inequality and State-Level Turnout (VEP)&quot;, covariate.labels = &quot;Gini Coef.&quot;)
+
+# County-Level Analysis
+## Plot
+ggplot(aes(x = AMEME001, y = turnout), data = county_turnout) +
+    geom_point()+
+    geom_smooth(method = &quot;lm&quot;, fill = &quot;gray&quot;, col = &quot;red&quot;, se = TRUE) +
+    labs(x = &quot;Gini Coef.&quot;, y = &quot;2020 Turnout&quot;) +
+    theme_minimal()
+## Model
+county.lm &lt;- lm(turnout ~ AMEME001, data = county_turnout)
+stargazer(county.lm, type = &quot;html&quot;, title = &quot;Income Inequality and County-Level Turnout (VAP Estimate)&quot;, covariate.labels = &quot;Gini Coef.&quot;)</code></pre>
+</div>
+<div id="north-carolina" class="section level3">
+<h3>North Carolina</h3>
+<pre class="r"><code># Map: Income Inequality by County
+tmap_mode(&quot;view&quot;)
+tm_shape(nc_county_gini) +
+  tm_polygons(col = &quot;AMEME001&quot;, n = 8, palette =&quot;BuGn&quot;, interactive = TRUE, id = &quot;COUNTY&quot;, title = &quot;Gini Coef.&quot;, legend.hist = TRUE, legend.is.portrait = FALSE, popup.vars = c(&quot;AMEME001&quot;)) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = &quot;bottom&quot;) 
+# Map: Voter Turnout by County
+tm_shape(nc_county_gini) +
+  tm_polygons(col = &quot;turnout&quot;, n = 8, palette =&quot;Purples&quot;, interactive = TRUE, id = &quot;COUNTY&quot;, title = &quot;Voter Turnout (2020 General)&quot;, legend.hist = TRUE, legend.is.portrait = FALSE) +
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = &quot;bottom&quot;) </code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
