@@ -21,14 +21,14 @@ output: html_document
 
 ##### Introduction: The Question
 
-Since the 1980s, inequality has risen in the United States, reaching heights not seen previously since the Gilded Age.  At the same time, certain political science research has found evidence suggesting economic inequality and inequality in political representation coincide. Thus, I investigate whether greater income inequality influences voters' propensity to vote or not. 
+Since the 1980s, inequality has risen in the United States, reaching heights not seen previously since the Gilded Age.  At the same time, certain political science research has found evidence suggesting economic inequality and political equality coincide. Thus, I investigate whether greater income inequality influences voters' propensity to vote or not. 
 
 ##### Formative Literature 
 - Gilens and Page (2014)
   - Notes that when rich & poor disagree on policy, the rich overwhelmingly "win" these disputes
 
 - McDonald (2014)
-  - Notes competing explanations of turnout look at different levels of aggregation
+  - Notes competing explanations of the turnout-inequality relationship look at different levels of aggregation
     - Trust Model: State-level
     - Conflict: County-level
     
