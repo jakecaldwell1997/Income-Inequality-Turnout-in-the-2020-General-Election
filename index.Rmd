@@ -46,7 +46,7 @@ The following is an exploratory first step in unraveling the relationship betwee
 
 ##### References
 - <font size="1"> Gilens, Martin and Benjamin Page. “Testing Theories of American Politics: Elites, Interest Groups, and Average Citizens,” *Perspectives on Politics*, Vol. 12, No. 3 (September 2014): 564-581.<font>
-- <font size="1" Michael P. McDonald. 2014. "Contextual Income Inequality and Political Behavior." in *Political Trust and Disenchantment with Politics: Comparative Perspectives from around the Globe*, Christina Eder, Ingvill Mochmann, Markus Quandt eds. Leiden, Netherlands: Brill Publishers.<font>
+- <font size="1"> Michael P. McDonald. 2014. "Contextual Income Inequality and Political Behavior." in *Political Trust and Disenchantment with Politics: Comparative Perspectives from around the Globe*, Christina Eder, Ingvill Mochmann, Markus Quandt eds. Leiden, Netherlands: Brill Publishers.<font>
 
 
 </div>
