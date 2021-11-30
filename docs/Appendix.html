@@ -626,7 +626,11 @@ tm_shape(nc_county_gini) +
 # Map: Voter Turnout by County
 tm_shape(nc_county_gini) +
   tm_polygons(col = &quot;turnout&quot;, n = 8, palette =&quot;Purples&quot;, interactive = TRUE, id = &quot;COUNTY&quot;, title = &quot;Voter Turnout (2020 General)&quot;, legend.hist = TRUE, legend.is.portrait = FALSE) +
-  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = &quot;bottom&quot;) </code></pre>
+  tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = &quot;bottom&quot;) 
+
+vote.logit &lt;- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age + mobilized, family = binomial(link = &quot;logit&quot;), data = nc_voter, na.action = na.omit)
+
+stargazer (vote.logit, type = &#39;html&#39;)</code></pre>
 </div>
 </div>
 

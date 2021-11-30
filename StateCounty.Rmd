@@ -142,7 +142,7 @@ Surprisingly, the relationship holds even at the county level, which previous li
 # Comparing
 
 ```{r, results = "asis", echo = FALSE}
-stargazer(state.lm, county.lm, type = "html", covariate.labels = "Gini Coef.")
+stargazer(state.lm, county.lm, type = "html", covariate.labels = "Gini Coef.", column.labels = c("State","County"))
 ```
 
 <p>&nbsp;</p>

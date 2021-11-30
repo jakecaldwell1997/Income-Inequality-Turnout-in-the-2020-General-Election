@@ -12,6 +12,10 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+cache.lazy = FALSE
+```
+
+```{r, echo = FALSE}
 library(tidyverse)
 library(sf)
 library(spData)
@@ -20,9 +24,7 @@ library(tmap)
 library(leaflet)
 library(RColorBrewer)
 library(stringr)
-library(data.table)
 library(stargazer)
-library(gridExtra)
 ```
 
 ```{r data setup, include = FALSE}
@@ -44,10 +46,10 @@ nc_county_gini <- left_join(nc_county_gini, nc_turnout, by = "NAMELSAD20")
 
 
 # Voter File Data
-nc_reg <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvoter_Statewide.txt", n_max = 1000000)
+nc_reg <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvoter_Statewide.txt",n_max = 1000000)
 nc_reg <- nc_reg[,c('voter_reg_num', 'voter_status_desc', 'voter_status_reason_desc', 'race_code', 'ethnic_code', 'party_cd', 'gender_code', 'birth_age', 'registr_dt', 'county_id')]
 
-nc_vhis <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvhis_Statewide.txt", n_max = 1000000)
+nc_vhis <- read_tsv("/Users/jakecaldwell/Jake/UF/Fall 2021/POS4931 - Election Data Science/Assignments/Project/ncvhis_Statewide.txt",n_max = 1000000)
 nc_vhis <- nc_vhis[,c('county_id', 'county_desc', 'voter_reg_num', 'election_lbl')]
 
 nc_voter <- left_join(nc_reg, nc_vhis, by = c('voter_reg_num' = 'voter_reg_num', 'county_id' = 'county_id'))
@@ -144,6 +146,19 @@ All data employed in this analysis was collected from the [North Carolina State 
 
 # Looking at North Carolina
 
+```{r}
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(leaflet)
+library(RColorBrewer)
+library(stringr)
+library(stargazer)
+```
+
+
 ##### Income Inequality by County
 ```{r incomemap, echo = FALSE}
 tmap_mode("view")
@@ -163,12 +178,30 @@ tm_shape(nc_county_gini) +
 Interactive map displaying voter turnout (2020 General Election) per County.
 
 <p>&nbsp;</p>
-# Primary Analysis: Individual-Level Model
-```{r model, echo = FALSE, results = "asis"}
+# Primary Analysis: Individual-Level Logit Model
 
-vote.probit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age + mobilized, family = binomial(link = "probit"), data = nc_voter, na.action = na.omit)
+The final analysis of the project is an individual-level analysis of North Carolina Voter Registration and Voter History files.  This logit model predicts individuals in North Carolina's propensity to vote in the 2020 General Election while controlling for key variables such as race, age, gender, party ID, and whether they registered to vote in the month preceding the election.
 
-stargazer (vote.probit, type = 'html')
+Before turning to the model, it is important to keep in mind a critical limitation of the model.  
+- Due to technical limitations & difficulties, the sample included in this model is not randomly selected.  Rather, only the first million records in the voter registration and history files were selected to be analyzed.  
+  - As a result, rather than randomly selecting, we have selected the files of voters from only 17 of the 100 counties in North Carolina, severely limiting variation in the main independent variable. Truthfully, this is a fatal flaw.
+
+<p>&nbsp;</p>
+
+
+##### The Model
+```{r model, results = "asis"}
+
+vote.logit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age + mobilized, family = binomial(link = "logit"), data = nc_voter, na.action = na.omit)
+
+stargazer (vote.logit, type = 'html')
 ```
 
- 
+<p>&nbsp;</p>
+
+##### Results
+- Income inequality is positive & significant in predicting voting in the 2020 general election, holding all else at 0
+- Libertarian & independent identification are negative & significant
+- Black is the only racial category significant in predicting voting & is negatively related
+- Age is positive & significant
+- Registering to vote within a month of the election is negative & significant 

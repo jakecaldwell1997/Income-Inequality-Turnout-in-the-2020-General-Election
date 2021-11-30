@@ -269,7 +269,9 @@ tm_shape(nc_county_gini) +
   tm_polygons(col = "turnout", n = 8, palette ="Purples", interactive = TRUE, id = "COUNTY", title = "Voter Turnout (2020 General)", legend.hist = TRUE, legend.is.portrait = FALSE) +
   tm_layout(frame = FALSE, legend.outside = TRUE, legend.outside.position = "bottom") 
 
+vote.logit <- glm(vote2020 ~ AMEME001 + democrat + libertarian + independent + female + asian + black + native + mixed + other + pacific + undesignated + birth_age + mobilized, family = binomial(link = "logit"), data = nc_voter, na.action = na.omit)
 
+stargazer (vote.logit, type = 'html')
 ```
 
 

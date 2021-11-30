@@ -11,7 +11,7 @@
 
 
 
-<title>Resources</title>
+<title>Conclusion</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -248,6 +251,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -255,6 +321,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -301,30 +377,47 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Resources</h1>
+<h1 class="title toc-ignore">Conclusion</h1>
 
 </div>
 
 
-<div id="r-and-r-studio" class="section level3">
-<h3>R and R-Studio</h3>
-<p><a href="http://www.r-project.org">R</a> is a free open-source programming language that can be used for statistical analysis, data-simulation, graphing, and lots of other stuff. Another free program is <a href="http://www.rstudio.com">R-studio</a>, that provides a nice graphic interface for R. Download R first, then download R-studio. Both can run on PCs, Macs or Linux. Students will be learning R in the stats labs using the lab manual <a href=""></a>.</p>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>This project has been a modest first step into an investigation into the relationship between income inequality and voter turnout at various levels of analysis.</p>
+<p>At the aggregate level, I have found results that suggest in the 2020 general election, greater income inequality was associated with lower levels of voter turnout at both the state <em>and</em> county level, despite convention in the literature.</p>
+<p>However, in my individual-level model for North Carolina, I find that controlling for other factors such as race, party, age, and mobilization, higher county-level income inequality is associated with greater propensity to vote.</p>
 </div>
-<div id="additional-r-resources" class="section level3">
-<h3>Additional R resources</h3>
-<ol style="list-style-type: decimal">
-<li>Google is great, Google your problem</li>
-<li><a href="https://stackoverflow.com">Stackoverflow</a> is great, google will often take you there because someone has already asked your question, and someone else has answered, usually many people have answered your question many ways.</li>
-<li>Danielle Navarro wrote a <a href="https://compcogscisydney.org/learning-statistics-with-r/">free Psych Stats textbook using R</a>, it’s worth checking out (some of our textbook are based on Danielle’s)</li>
-<li>I am currently writing another stats textbook (incorporating some of the above). You can read it while it’s being made right here <a href="https://crumplab.github.io/statistics/">https://crumplab.github.io/statistics/</a>, also check out the lab manual for more specific things about doing various stats in R (also in draft right now) <a href="https://crumplab.github.io/statisticsLab/">https://crumplab.github.io/statisticsLab/</a></li>
-<li>Daniell Navarro recently made this website for introducing R, it’s great, check it out (also made using this R markdown process): <a href="http://compcogscisydney.org/psyr/">http://compcogscisydney.org/psyr/</a></li>
-<li>Check out my slightly older programming book that also introduces R <a href="https://crumplab.github.io/programmingforpsych/">https://crumplab.github.io/programmingforpsych/</a></li>
-<li>This is the definitive guide for all things R Markdown (you will find this very useful as you get better at this skill): <a href="https://bookdown.org/yihui/rmarkdown/">https://bookdown.org/yihui/rmarkdown/</a></li>
-</ol>
+<div id="limitations" class="section level1">
+<h1>Limitations</h1>
+<p>The contributions made in this project, unfortunately, suffer from a few critical limitations, which are crucial to acknowledge:</p>
+<ul>
+<li>Lack of a consistent measure of voter turnout across levels of analysis (and rough estimates in some cases)</li>
+<li>Use of voter files which do not contain certain theoretically interesting variables such as efficacy or income</li>
+<li>Absence of random sampling in individual-level analysis<br />
+</li>
+<li>Focus on single election</li>
+<li>Inability to compare influence of state &amp; county inequality on the individual propensity to vote (North Carolina only)</li>
+</ul>
+<p>Keeping these limitations in mind, we must recognize the results of this project as a step toward a more robust analysis in the future, and take them with a grain of salt.</p>
+</div>
+<div id="going-forward" class="section level1">
+<h1>Going Forward</h1>
+<p>A prominent puzzle in the study of income inequality and voter turnout is that the relationship between the two tends to reverse at varying levels of analysis. While proponents of the “trust” explanation tend to look at state-level data, proponents of the “conflict” theory look at the county-level.</p>
+<p>Going forward, I would like to investigate the role of external political efficacy as a mechanism which may bridge the gap between these two competing theories. As income inequality grows, Gilens and Page’s research suggest political inequality in policy “wins” may also grow. Thus, non-wealthy Americans may believe they have less influence in government than do the rich, and choose to stay home (as the trust model would also suggest). However, efficacy may vary along levels of analysis, and Americans may believe they can fight against inequality effectively at the local level, as the levers of power are relatively accessible compared to the state and national levels.</p>
+<p>Of course, this theory would need further development and would likely demand different sources of data than the ones employed in this project. But, as previously mentioned, this project can serve as a springboard to more robust research on the relationship between income inequality and voter turnout going forward.</p>
+<p>
+ 
+</p>
+</div>
+<div id="questions" class="section level1">
+<h1>Questions?</h1>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -357,6 +450,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
